@@ -1,0 +1,391 @@
+@font-face {
+    font-family: 'Gilroy';
+    /* Update the file name and format */
+    src: url('../fonts/Gilroy-Regular.ttf') format('truetype');
+    font-weight: 400; /* normal */
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Gilroy';
+    /* Update the file name and format */
+    src: url('../fonts/Gilroy-Bold.ttf') format('truetype');
+    font-weight: 700; /* bold */
+    font-style: normal;
+  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Gilroy', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    transition: background-color 0.5s ease; /* Smooth background transition */
+}
+
+/* --- 2. DYNAMIC BACKGROUNDS --- */
+.weather-bg-clouds { background-color: #bdc3c7; }
+.weather-bg-clear { background-color: #4da6ff; }
+.weather-bg-rain, .weather-bg-drizzle, .weather-bg-thunderstorm { background-color: #5d6d7e; }
+.weather-bg-snow { background-color: #eaf2f8; }
+.weather-bg-mist, .weather-bg-haze, .weather-bg-fog { background-color: #95a5a6; }
+
+
+/* --- 3. The Main App Card --- */
+main {
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 4rem;
+    background: rgba(255, 255, 255, 0.9); /* Slightly transparent for depth */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Softer, more defined shadow */
+    text-align: center;
+    transition: max-width 0.4s ease;
+    min-width: 353px;
+}
+
+/* --- 4. Content Styling (Forms, Text, etc.) --- */
+h1 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+#search-form { display: flex; margin-bottom: 1.5rem; }
+#city-input {
+    flex-grow: 1; padding: 0.75rem 1rem; border: 1px solid #ccc;
+    border-radius: 30px 0 0 30px; /* Pill shape */
+    font-size: 1rem; outline: none; background: #fdfdfd;
+    min-width: 0;
+}
+#search-form button {
+    padding: 0.75rem 1.25rem; border: none; background: #3498db;
+    color: white; font-size: 1rem; font-weight: 600;
+    border-radius: 0 30px 30px 0; /* Pill shape */
+    cursor: pointer; transition: background-color 0.3s ease;
+}
+#search-form button:hover { background-color: #2980b9; }
+
+#weather-info { margin-top: 1rem; animation: fadeInUp 0.5s ease forwards; }
+#weather-icon { width: 120px; height: 120px; }
+#city-name { font-size: 2.25rem; font-weight: 700; color: #2c3e50; }
+#temperature { font-size: 3.5rem; font-weight: 300; margin: 0.5rem 0; color: #34495e; }
+#description { font-size: 1.25rem; text-transform: capitalize; color: #7f8c8d; }
+
+#forecast-advice {
+    margin-top: 1.5rem; padding: 1rem; background: rgba(233, 245, 255, 0.8);
+    border-radius: 12px; color: #2980b9; font-size: 1rem; line-height: 1.5;
+    animation: fadeInUp 0.5s ease 0.2s forwards; opacity: 0;
+}
+
+/* --- 5. Forecast Sections --- */
+.forecast-container {
+    margin-top: 2rem; text-align: left;
+    animation: fadeInUp 0.5s ease 0.4s forwards; opacity: 0;
+}
+.forecast-container h2 {
+    font-size: 1.2rem; color: #34495e; margin-bottom: 1rem;
+    border-bottom: 1px solid #ecf0f1; padding-bottom: 0.5rem;
+}
+.forecast-grid {
+    display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 1rem;
+}
+.forecast-card {
+    flex-shrink: 0; text-align: center; padding: 1rem;
+    background: rgba(249, 249, 249, 0.85);
+    border-radius: 15px; border: 1px solid #ecf0f1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.forecast-card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.forecast-card img { width: 50px; height: 50px; }
+.forecast-card p { color: #34495e; font-weight: 500; }
+
+/* --- 6. Animations --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 7. Responsive Desktop Styles --- */
+@media (min-width: 768px) {
+    .forecast-grid {
+        display: grid; /* Switch to a grid layout on larger screens */
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        overflow-x: hidden; /* No more horizontal scroll needed */
+    }}
+
+/* --- 8. Suggestions Dropdown --- */
+#suggestions-container {
+    background-color: white;
+    border-radius: 0 0 15px 15px; /* Rounded corners at the bottom */
+    margin-top: -1.5rem; /* Pull it up to sit flush with the form */
+    padding-top: 1rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    position: relative; /* To ensure it sits on top of other content */
+    z-index: 10;
+    display: none; /* Hidden by default */
+}
+
+.suggestion-item {
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    text-align: left;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f4f8;
+}
+
+.suggestion-item:last-child {
+    border-radius: 0 0 15px 15px;
+}
+
+
+/* --- 9. Favorites Section --- */
+#weather-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#save-favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#save-favorite-btn:hover {
+    transform: scale(1.2);
+}
+
+.favorites-container {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.favorites-container h3 {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 0.5rem;
+}
+
+#favorites-list p {
+    color: #7f8c8d;
+}
+
+.favorite-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.favorite-item span {
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.favorite-item button {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 1rem;
+    line-height: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.favorite-item button:hover {
+    background: #c0392b;
+}
+
+
+#save-favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 28px; /* Set a specific size */
+    height: 28px;
+    padding: 0;
+    transition: transform 0.2s ease, color 0.2s ease;
+    color: #bdc3c7; /* Default color (light grey for outline) */
+}
+
+#save-favorite-btn:hover {
+    transform: scale(1.15);
+    color: #3498db; /* Color on hover */
+}
+
+#save-favorite-btn svg {
+    width: 100%;
+    height: 100%;
+    fill: none; /* Make it an outline by default */
+    stroke: currentColor; /* The stroke takes the button's color */
+    stroke-width: 32px; /* Adjust thickness of the outline */
+}
+
+/* This is the 'saved' state */
+#save-favorite-btn.is-favorite {
+    color: #f39c12; /* A gold color for saved favorites */
+}
+
+#save-favorite-btn.is-favorite svg {
+    fill: currentColor; /* The fill takes the button's color */
+    stroke: none; /* No outline when filled */
+}
+
+
+/* --- 10. Unit Toggle Switch --- */
+.unit-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.unit-toggle span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #7f8c8d;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+}
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+input:checked + .slider {
+    background-color: #3498db;
+}
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* --- 11. Time Display --- */
+/* --- 11. Time Display --- */
+#time-display-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 550px; /* A good width for this layout */
+    margin: 0 auto 2rem auto;
+    padding: 1rem;
+    background: rgba(236, 240, 241, 0.5);
+    border-radius: 15px;
+}
+
+.time-box {
+    text-align: center; /* Center all text inside the box */
+    flex: 1;
+}
+
+.time-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem; /* Space below the label */
+}
+
+.time {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2c3e50;
+    line-height: 1.1; /* Tighter line height */
+}
+
+.timezone {
+    font-size: 0.8rem;
+    color: #95a5a6;
+    margin-top: 0.25rem; /* Space above the timezone */
+    /* word-break: break-word;  */
+}
+
+/* --- Time Format Button --- */
+#time-format-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    width: 45px;
+    height: 30px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    flex-shrink: 0;
+}
+
+#time-format-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+}
+
+/* --- Widen the container even more on desktop --- */
+@media (min-width: 768px) {
+    #time-display-container {
+        max-width: 600px;
+    }
+}

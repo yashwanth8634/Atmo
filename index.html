@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌦️</text></svg>">
+    
+</head>
+
+<body>
+    <main>
+        <h1>🌦️Atmo</h1>
+
+        <div class="unit-toggle">
+            <span>°C</span>
+            <label class="switch">
+                <input type="checkbox" id="unit-switch">
+                <span class="slider round"></span>
+            </label>
+            <span>°F</span>
+        </div>
+
+        <!-- Replace your old time container with this -->
+<!-- Replace your old time container with this -->
+<div id="time-display-container">
+    <div class="time-box" id="local-time-box">
+        <p class="time-label">Your Local Time</p>
+        <p class="time" id="local-time"></p>
+        <p class="timezone" id="local-timezone"></p>
+    </div>
+
+    <button id="time-format-btn" title="Toggle 12/24 Hour Format">12/24</button>
+
+    <div class="time-box" id="city-time-box">
+        <p class="time-label">CITY TIME</p>
+        <p class="time" id="city-time"></p>
+        <p class="timezone" id="city-timezone"></p>
+    </div>
+</div>
+    
+
+        <form id="search-form">
+            <input type="text" id="city-input" placeholder="Enter city name" required autocomplete="off">
+            <button type="submit">Get Weather</button>
+        </form>
+        <div id="suggestions-container"></div>
+
+        <div id="weather-info">
+            <!-- This new wrapper holds the city name and the save button -->
+            <div id="weather-header">
+                <h2 id="city-name"></h2>
+                <button id="save-favorite-btn" title="Save to Favorites">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                    <path
+                        d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z" />
+                </svg>
+                </button>
+            </div>
+
+            <img id="weather-icon" src="" alt="Weather icon">
+            <p id="temperature"></p>
+            <p id="description"></p>
+        </div>
+
+        <p id="forecast-advice"></p>
+
+        <div class="forecast-container">
+            <h2>Hourly Forecast</h2>
+            <div id="hourly-forecast" class="forecast-grid"></div>
+        </div>
+        <div class="forecast-container">
+            <h2>5-Day Forecast</h2>
+            <div id="daily-forecast" class="forecast-grid"></div>
+        </div>
+
+        <!-- This is the new container for the list of saved favorites -->
+        <div class="favorites-container">
+            <h3>Favorites</h3>
+            <div id="favorites-list"></div>
+        </div>
+    </main>
+
+    <script type="module" src="/JS/main.js"></script>
+</body>
+
+</html>
